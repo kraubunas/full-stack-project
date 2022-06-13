@@ -1,0 +1,25 @@
+{
+  "ts-node": {
+    "files": true,
+  },
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "outDir": "build",
+    "skipLibCheck": true,
+    "types": [
+      "node",
+      "express",
+    ],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
+    ]
+  },
+  "include": [
+    "src/**/*"
+  ]
+}

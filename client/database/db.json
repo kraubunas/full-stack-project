@@ -1,0 +1,58 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Biciu vasko zvake",
+      "category": "candle",
+      "price": "10.99€",
+      "image": [
+        "https://cdn.lisaangel.co.uk/image/cache/data/product-images/ss21/sd-ss21/set-of-three-beeswax-candles-0v8a9980-900x900.jpg"
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Betono zvakide",
+      "category": "candlestick",
+      "price": "10.99€",
+      "image": [
+        "https://images.squarespace-cdn.com/content/v1/5771082d9de4bb4c71ed99ea/1608494085664-RNLTKEG1EODN9HJP6HCG/Hexagonal%2BHoneycomb%2Band%2BBees%2BBeeswax%2BCandle.jpg?format=1500w"
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Padekliukas",
+      "category": "candlestick",
+      "price": "10.99€",
+      "image": [
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuvqpY8jxZ4vF53WBZGG9OULqPg_NXy0TbOg&usqp=CAU"
+      ]
+    }
+  ],
+  "users": [
+    {
+      "id": "4",
+      "email": "karolis@raubunas.lt",
+      "password": "123456"
+    },
+    {
+      "id": "5",
+      "email": "raubunas@kartolis.lt",
+      "password": "123456KAR"
+    },
+    {
+      "email": "kraubun@gmail.com",
+      "password": "123456K@r",
+      "id": "6"
+    },
+    {
+      "email": "kraubun@karolis.com",
+      "password": "123456",
+      "id": "7"
+    },
+    {
+      "email": "user1@gmail.com",
+      "password": "Vilnius123",
+      "id": "5KTADV8"
+    }
+  ]
+}
