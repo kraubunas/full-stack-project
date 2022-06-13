@@ -9,11 +9,19 @@ export type CartItem = {
         amount: number
     };
 
+export type CartItemProps = Omit<CartItem, '_id'>;
+
 export type User = {
     email: string,
     password: string,
     role: 'user' | 'admin',
-    cart: CartItem[]
+    cartItems: CartItem[],
+    createdAt: string,
+    updatedAt: string,
+};
+
+export type UserProps = Omit<User, 'createdAt' | 'updatedAt' | 'role' | 'cartItems'> & {
+  cartItems?: CartItem[]
 };
 
 export type UserDocument = (Document<unknown, any, User> & User & {
@@ -37,7 +45,7 @@ const userSchema = new Schema<User, UserModelType>({
         enum: ['user', 'admin'],
         default: 'user',
     },
-    cart: {
+    cartItems: {
         type: [{
             itemId: {
                 type: Schema.Types.ObjectId,

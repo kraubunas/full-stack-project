@@ -1,5 +1,9 @@
 import {
- Schema, model, Model, Types, Document,
+ Schema,
+ model,
+ Model,
+ Types,
+ Document,
 } from 'mongoose';
 
 type Category = {

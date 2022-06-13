@@ -6,7 +6,7 @@ export const getCart: RequestHandler = async (req, res) => {
     const { authUser } = req;
 
     res.status(200).send({
-        cartItems: authUser.cart,
+        cartItems: authUser.cartItems,
     });
 };
 
@@ -15,17 +15,17 @@ export const addItem: RequestHandler = async (req, res) => {
   const { authUser } = req;
 
   try {
-    const productExistsInCart = authUser.cart.some(
+    const productExistsInCart = authUser.cartItems.some(
       (cartItem) => cartItem.itemId.equals(newCartItemData.itemId),
     );
     if (productExistsInCart) {
       throw new Error('Toks daiktas jau yra krepšelyje');
     }
-    authUser.cart.push(newCartItemData);
+    authUser.cartItems.push(newCartItemData);
     await authUser.save();
 
     res.status(200).json({
-      cartItem: authUser.cart[authUser.cart.length - 1],
+      cartItem: authUser.cartItems[authUser.cartItems.length - 1],
     });
   } catch (error) {
     res.status(400).json({
@@ -40,7 +40,7 @@ export const updateItem: RequestHandler = async (req, res) => {
     const { amount } = req.body;
 
     try {
-        const cartItemRef = authUser.cart.find((item) => item._id.equals(itemId));
+        const cartItemRef = authUser.cartItems.find((item) => item._id.equals(itemId));
 
         if (cartItemRef === undefined) {
             throw new Error(`Nerastas krepselio daiktas su tokiu id: '${itemId}'`);
@@ -64,7 +64,7 @@ export const deleteItem: RequestHandler = async (req, res) => {
     const { itemId } = req.params;
     const user = req.authUser;
     try {
-        const deletedCartItem = user.cart.find((cartItem) => cartItem._id.equals(itemId));
+        const deletedCartItem = user.cartItems.find((cartItem) => cartItem._id.equals(itemId));
         if (deletedCartItem === undefined) {
             res.status(400).json({
                 error: 'Nerastas pirkiniu krepselio daiktas',
@@ -72,7 +72,7 @@ export const deleteItem: RequestHandler = async (req, res) => {
             return;
         }
 
-        user.cart = user.cart.filter((cartItem) => cartItem !== deletedCartItem);
+        user.cartItems = user.cartItems.filter((cartItem) => cartItem !== deletedCartItem);
         await user.save();
         res.status(200).send({ cartItem: deletedCartItem });
     } catch (error) {
