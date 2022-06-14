@@ -1,70 +1,77 @@
-import { RequestHandler } from 'express';
 import { Error } from 'mongoose';
+import { RequestHandler } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import UserModel from '../models/user-model';
 import config from '../config';
+import UserModel, { UserProps } from '../models/user-model';
+import createUserViewModel, { UserViewModel } from '../view-model-creators/create-user-view-model';
 
-type AuthBody = { email?: string, password?: string };
+type AuthResponseBody = {
+  user: UserViewModel,
+  token: string,
+} | ErrorResponseBody;
 
-export const register: RequestHandler<unknown, unknown, AuthBody> = async (req, res) => {
-    const { email, password } = req.body;
+export const login: RequestHandler<
+  unknown,
+  AuthResponseBody,
+  Partial<UserProps>
+> = async (req, res) => {
+  const { email, password } = req.body;
 
-    try {
-        if (!email) throw new Error('Privalomas email\'as');
-        if (!password) throw new Error('Privalomas slaptazodis');
+  try {
+    if (!email) throw new Error('Privalomas el. paštas');
+    if (!password) throw new Error('Privalomas slaptažodis');
 
-        const hashedPassword = bcrypt.hashSync(password, 5);
+    const userDoc = await UserModel.findOne({ email });
+    if (userDoc === null) throw new Error(`Vartotojas su paštu '${email}' nerastas`);
 
-        const createdUser = await UserModel.create({ email, password: hashedPassword });
-        const token = jwt.sign({ email, role: createdUser.role }, config.token.secret);
+    const passwordIsCorrect = bcrypt.compareSync(password, userDoc.password);
+    if (!passwordIsCorrect) throw new Error('Slaptažodis neteisingas');
+    const token = jwt.sign({ email, role: userDoc.role }, config.token.secret);
 
-        res.status(201).json({
-            user: createdUser,
-            token: `Bearer ${token}`,
-        });
-    } catch (error) {
-        let message;
-
-        if (error instanceof Error.ValidationError) {
-            if (error.errors.email) {
-                message = 'Toks pastas jau yra';
-            }
-        } else if (error instanceof Error) {
-            message = error.message;
-        } else {
-            message = 'Serverio klaida registruojantis';
-        }
-        res.status(400).json({
-            error: message,
-        });
-    }
+    res.status(200).json({
+      user: createUserViewModel(userDoc),
+      token: `Bearer ${token}`,
+    });
+  } catch (error) {
+    res.status(400).json({
+      error: error instanceof Error ? error.message : 'Serverio klaida prisijungiant',
+    });
+  }
 };
 
-export const login: RequestHandler<unknown, unknown, AuthBody> = async (req, res) => {
-    const { email, password } = req.body;
+export const register: RequestHandler<
+  unknown,
+  AuthResponseBody,
+  Partial<UserProps>
+> = async (req, res) => {
+  const { email, password } = req.body;
 
-    try {
-        if (!email) throw new Error('Privalomas email\'as');
-        if (!password) throw new Error('Privalomas slaptazodis');
+  try {
+    if (!email) throw new Error('Privalomas el. paštas');
+    if (!password) throw new Error('Privalomas slaptažodis');
 
-        const user = await UserModel.findOne({ email });
+    const hashedPassword = bcrypt.hashSync(password, 5);
+    const userDoc = await UserModel.create({ email, password: hashedPassword });
 
-        if (user === null) throw new Error(`Vartotojas su pastu: '${email}' nerastas`);
+    const token = jwt.sign({ email, role: userDoc.role }, config.token.secret);
 
-        const passwordIsCorrect = bcrypt.compareSync(password, user.password);
+    res.status(201).json({
+      user: createUserViewModel(userDoc),
+      token: `Bearer ${token}`,
+    });
+  } catch (error) {
+    let message = 'Serverio klaida registruojantis';
 
-        if (!passwordIsCorrect) throw new Error('Slaptazodis neteisingas');
-
-        const token = jwt.sign({ email, role: user.role }, config.token.secret);
-
-        res.status(200).json({
-            user,
-            token: `Bearer ${token}`,
-        });
-    } catch (error) {
-        res.status(400).json({
-            error: error instanceof Error ? error.message : 'Serverio klaida sujungiant',
-        });
+    if (error instanceof Error.ValidationError) {
+      if (error.errors.email) {
+        message = 'Toks paštas jau yra';
+      }
+    } else if (error instanceof Error) {
+      message = error.message;
     }
+    res.status(400).json({
+      error: message,
+    });
+  }
 };

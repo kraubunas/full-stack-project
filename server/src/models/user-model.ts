@@ -4,9 +4,12 @@ import {
 import mongooseUniqueValidator from 'mongoose-unique-validator';
 
 export type CartItem = {
-        _id: Types.ObjectId,
-        itemId: Types.ObjectId,
-        amount: number
+    _id: Types.ObjectId,
+    itemId: Types.ObjectId,
+    amount: number,
+    createdAt: string,
+    updatedAt: string,
+
     };
 
 export type CartItemProps = Omit<CartItem, '_id'>;

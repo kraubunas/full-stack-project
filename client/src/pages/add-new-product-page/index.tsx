@@ -21,7 +21,7 @@ const CreateProduct: React.FC = () => {
     const product = {
       name, image, price, category,
     };
-    fetch('http://localhost:8000/products', {
+    fetch('http://localhost:1337/products', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(product),

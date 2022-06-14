@@ -1,58 +1,44 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import axios from 'axios';
-import Crudentials from '../types/crudentials';
-import TempUser from '../types/temporary-user';
-import User from '../types/user';
+import { AxiosError } from 'axios';
+import ApiService, { isResponseError } from './api-services';
+import { User, Crudentials } from '../types';
 
-export type AuthPromise = (crudential: Crudentials) => Promise<User>;
+export type AuthResponseBody = {
+  user: User,
+  token: string,
+};
 
-const API_SERVER = process.env.REACT_APP_API_SERVER;
+export const login = async (crudentials: Crudentials): Promise<AuthResponseBody> => {
+  try {
+    const response = await ApiService.post<AuthResponseBody>('/api/auth/login', crudentials);
 
-namespace AuthService {
-  export const login: AuthPromise = async ({ email, password }: Crudentials): Promise<User> => {
-    const { data: tempUsers } = await axios.get<TempUser[]>(`${API_SERVER}/users?email=${email}`);
-
-    if (tempUsers.length === 0) {
-      throw new Error('User email is incorect');
+    return response.data;
+  } catch (err) {
+    if (isResponseError(err)) {
+      throw new Error(err.response.data.error);
     }
+    console.log('Neprognozuota klaida');
+    throw (err);
+  }
+};
 
-    const [tempUser] = tempUsers;
+export const register = async (crudentials: Crudentials): Promise<AuthResponseBody> => {
+  throw new Error('Testuojames, neskubam.');
+};
 
-    if (tempUser.password !== password) {
-      throw new Error('Password is incorect');
-    }
+export const authenticate = async (token: string): Promise<AuthResponseBody> => {
+  throw new Error('Testuojame authenticate metodą.');
+};
 
-    return {
-      id: tempUser.id,
-      email: tempUser.email,
-    };
-  };
+export const checkEmailAvailability = async (email: string): Promise<boolean> => {
+  throw new Error('Testuojames, neskubam.');
+};
 
-  export const register: AuthPromise = async ({ email, password }: Crudentials): Promise<User> => {
-    const { data: tempUsers } = await axios.get<TempUser[]>(`${API_SERVER}/users`);
-
-    const userExists = tempUsers.map((existingUser) => existingUser.email).includes(email);
-
-    if (userExists) {
-      throw new Error('This email is taken. Choose another email');
-    }
-
-    const { data: createdPermanentUser } = await axios.post(`${API_SERVER}/users`, { email, password });
-
-    const createdUser = {
-      id: createdPermanentUser.id,
-      email: createdPermanentUser.email,
-    };
-
-    return createdUser;
-  };
-  export const checkEmailAvailability = async (email: string): Promise<boolean> => {
-    const { data: tempUsers } = await axios.get<TempUser[]>(`${API_SERVER}/users`);
-    const emails = tempUsers.map((x) => x.email);
-
-    return !emails.includes(email);
-  };
-
-}
+const AuthService = {
+  login,
+  register,
+  authenticate,
+  checkEmailAvailability,
+};
 
 export default AuthService;

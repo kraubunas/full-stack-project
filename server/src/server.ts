@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
+import cors from 'cors';
 import productsRouter from './routers/products-router';
 import categoriesRouter from './routers/categories-router';
 import authRouter from './routers/auth-router';
@@ -12,6 +13,7 @@ const server = express();
 const { DB_CONNECTION_URL } = process.env;
 if (DB_CONNECTION_URL === undefined) throw new Error('Set up environment DB_CONNECTION_URL variables!');
 
+server.use(cors());
 server.use(morgan(':method :url :status'));
 server.use(express.static('public'));
 server.use(express.json());

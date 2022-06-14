@@ -5,6 +5,10 @@ import { AuthAction, AuthActionType, AuthState } from './auth-types';
 
 const USER_KEY_IN_LOCAL_STORAGE = process.env.REACT_APP_USER_KEY_IN_LOCAL_STORAGE;
 
+if (USER_KEY_IN_LOCAL_STORAGE === undefined) {
+  throw new Error('Please define USER_KEY_IN_LOCAL_STORAGE in /.env.local');
+}
+
 const initialState: AuthState = {
   user: getLocalStorageItem(USER_KEY_IN_LOCAL_STORAGE),
   error: null,

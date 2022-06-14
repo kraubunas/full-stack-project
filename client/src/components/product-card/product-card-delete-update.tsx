@@ -20,7 +20,7 @@ const DeleteUpdateProducts: React.FC<ProductCardProps> = ({
   const navigate = useNavigate();
 
   const handleDelete = () => {
-    fetch(`http://localhost:8000/products/${id}`, {
+    fetch(`http://localhost:1337/products/${id}`, {
       method: 'DELETE',
     }).then(() => {
       console.log('delete action');
