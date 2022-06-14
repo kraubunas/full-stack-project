@@ -6,10 +6,10 @@ import Radio from '@mui/material/Radio';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import { useNavigate } from 'react-router-dom';
 import { useRootSelector } from '../../store/hooks';
-import { selectUser } from '../../store/selectors';
+import { selectAuthUser } from '../../store/selectors';
 
 const CreateProduct: React.FC = () => {
-  const user = useRootSelector(selectUser);
+  const user = useRootSelector(selectAuthUser);
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [image, setImage] = useState(['']);

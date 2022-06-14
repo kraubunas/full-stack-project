@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
 import { useRootDispatch, useRootSelector } from '../store/hooks';
-import { selectLoggedIn, selectAuthError } from '../store/selectors';
+import { selectAuthLoggedIn, selectAuthError } from '../store/selectors';
 import { authClearErrorAction } from '../store/features/auth/auth-action-creators';
 
 type AuthFormProps = {
@@ -30,7 +30,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
   children,
 }) => {
   const dispath = useRootDispatch();
-  const loading = useRootSelector(selectLoggedIn);
+  const loading = useRootSelector(selectAuthLoggedIn);
   const error = useRootSelector(selectAuthError);
 
   const clearError = () => {

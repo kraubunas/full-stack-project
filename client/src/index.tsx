@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 
-import { Provider } from 'react-redux';
+import { Provider, Provider as ReduxProvider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import App from './app';
 import customTheme from './styles/theme';
@@ -13,7 +13,9 @@ ReactDOM.render(
     <BrowserRouter>
       <ThemeProvider theme={customTheme}>
         <CssBaseline />
-        <App />
+        <ReduxProvider store={store}>
+          <App />
+        </ReduxProvider>
       </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>,

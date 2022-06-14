@@ -14,52 +14,65 @@ import CreateProduct from './pages/add-new-product-page';
 import RegisterPage from './pages/register-page';
 import RequireAuth from './routing/require-auth';
 import RequireVisitor from './routing/require-visitor';
-import store from './store/index';
+import store, { useRootSelector } from './store/index';
 import DeleteUpdateProductsPage from './pages/update-products-page';
+import { createAuthenticateActionThunk } from './store/actions-creators';
+import { useRootDispatch } from './store/hooks';
+import { selectAuthToken, selectAuthLoggedIn } from './store/selectors';
 
-const App: React.FC = () => (
+const App: React.FC = () => {
+  const token = useRootSelector(selectAuthToken);
+  const loggedIn = useRootSelector(selectAuthLoggedIn);
+  const dispatch = useRootDispatch();
 
-  <ReduxProvider store={store}>
-    <Routes>
-      <Route path="/" element={<LandingPageLayout />}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/products" element={<ProductsPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route
-          path="auth/login"
-          element={(
-            <RequireVisitor>
-              <LoginPage />
-            </RequireVisitor>
+  if (!loggedIn && token) {
+    dispatch(createAuthenticateActionThunk(token));
+    return <div>Autentifikuojama...</div>;
+  }
+
+  return (
+    <ReduxProvider store={store}>
+      <Routes>
+        <Route path="/" element={<LandingPageLayout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route
+            path="auth/login"
+            element={(
+              <RequireVisitor>
+                <LoginPage />
+              </RequireVisitor>
           )}
-        />
-        <Route
-          path="auth/register"
-          element={(
-            <RequireVisitor>
-              <RegisterPage />
-            </RequireVisitor>
+          />
+          <Route
+            path="auth/register"
+            element={(
+              <RequireVisitor>
+                <RegisterPage />
+              </RequireVisitor>
           )}
-        />
-        <Route
-          path="add-new-product"
-          element={(
-            <RequireAuth>
-              <CreateProduct />
-            </RequireAuth>
+          />
+          <Route
+            path="add-new-product"
+            element={(
+              <RequireAuth>
+                <CreateProduct />
+              </RequireAuth>
           )}
-        />
-        <Route
-          path="update-products"
-          element={(
-            <RequireAuth>
-              <DeleteUpdateProductsPage />
-            </RequireAuth>
+          />
+          <Route
+            path="update-products"
+            element={(
+              <RequireAuth>
+                <DeleteUpdateProductsPage />
+              </RequireAuth>
           )}
-        />
-      </Route>
-    </Routes>
-  </ReduxProvider>
-);
+          />
+        </Route>
+      </Routes>
+    </ReduxProvider>
+  );
+};
 
 export default App;

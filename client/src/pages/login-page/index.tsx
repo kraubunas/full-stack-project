@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import AuthForm from '../../components/auth-form';
 import { useRootDispatch } from '../../store/hooks';
 import { selectAuthLoading } from '../../store/selectors';
-import { createLoginAction } from '../../store/actions-creators';
+import { createLoginActionThunk } from '../../store/actions-creators';
 import { useRootSelector } from '../../store';
 
 type LoginValues = {
@@ -45,7 +45,7 @@ const LoginPage: React.FC = () => {
 
   const handleLogin: LoginFormikConfig['onSubmit'] = ({ email, password }) => {
     const redirect = searchParams.get('redirect') ?? '/';
-    const loginAction = createLoginAction({ email, password }, redirect);
+    const loginAction = createLoginActionThunk({ email, password }, redirect);
     dispatch(loginAction);
   };
 

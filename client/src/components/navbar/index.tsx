@@ -17,7 +17,7 @@ import NavbarLink, { CartStyle } from './navbar-link';
 import Cart from '../cart/cart';
 import { CartItem } from '../../types/cart-item-type';
 import { useRootSelector } from '../../store/hooks';
-import { selectLoggedIn } from '../../store/selectors';
+import { selectAuthLoggedIn } from '../../store/selectors';
 import { selectCartItemsCount } from '../../store/features/cart/cart-selectors';
 import theme from '../../styles/theme';
 import NavBarBurgerDropDownMenu from './navbar-burger-dropdown';
@@ -35,7 +35,7 @@ const Navbar: React.FC = () => {
   //   });
   // }, [cart, cartCount]);
 
-  const loggedIn = useRootSelector(selectLoggedIn);
+  const loggedIn = useRootSelector(selectAuthLoggedIn);
 
   const isMatch = useMediaQuery(theme.breakpoints.down('md'));
 

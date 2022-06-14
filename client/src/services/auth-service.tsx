@@ -6,9 +6,7 @@ export type AuthResponseBody = {
   token: string,
 };
 
-export type AuthPromise = (crudential: Crudentials) => Promise<AuthResponseBody>;
-
-export const login: AuthPromise = async (crudentials: Crudentials) => {
+export const login = async (crudentials: Crudentials): Promise<AuthResponseBody> => {
   try {
     const response = await ApiService.post<AuthResponseBody>('/api/auth/login', crudentials);
 
@@ -22,8 +20,12 @@ export const login: AuthPromise = async (crudentials: Crudentials) => {
   }
 };
 
-export const register: AuthPromise = async ({ email, password }: Crudentials) => {
+export const register = async (crudentials: Crudentials): Promise<AuthResponseBody> => {
   throw new Error('Testuojames, neskubam.');
+};
+
+export const authenticate = async (token: string): Promise<AuthResponseBody> => {
+  throw new Error('Testuojame authenticate metodą.');
 };
 
 export const checkEmailAvailability = async (email: string): Promise<boolean> => {
@@ -33,6 +35,7 @@ export const checkEmailAvailability = async (email: string): Promise<boolean> =>
 const AuthService = {
   login,
   register,
+  authenticate,
   checkEmailAvailability,
 };
 
