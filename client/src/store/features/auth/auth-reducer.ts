@@ -3,14 +3,15 @@ import { Reducer } from 'redux';
 import { getLocalStorageItem, setLocalStoreageItem } from '../../../helpers/local-storage-helpers';
 import { AuthAction, AuthActionType, AuthState } from './auth-types';
 
-const USER_KEY_IN_LOCAL_STORAGE = process.env.REACT_APP_USER_KEY_IN_LOCAL_STORAGE;
+const { REACT_APP_TOKEN_KEY_IN_LOCAL_STORAGE } = process.env;
 
-if (USER_KEY_IN_LOCAL_STORAGE === undefined) {
-  throw new Error('Please define USER_KEY_IN_LOCAL_STORAGE in /.env.local');
+if (REACT_APP_TOKEN_KEY_IN_LOCAL_STORAGE === undefined) {
+  throw new Error('Please define REACT_APP_TOKEN_KEY_IN_LOCAL_STORAGE in /.env.local');
 }
 
 const initialState: AuthState = {
-  user: getLocalStorageItem(USER_KEY_IN_LOCAL_STORAGE),
+  token: getLocalStorageItem(REACT_APP_TOKEN_KEY_IN_LOCAL_STORAGE),
+  user: null,
   error: null,
   loading: false,
 };
@@ -18,10 +19,11 @@ const initialState: AuthState = {
 const authReducer: Reducer<AuthState, AuthAction> = (state = initialState, action) => {
   switch (action.type) {
     case AuthActionType.AUTH_SUCCESS: {
-      setLocalStoreageItem(USER_KEY_IN_LOCAL_STORAGE, action.payload.user);
+      setLocalStoreageItem(REACT_APP_TOKEN_KEY_IN_LOCAL_STORAGE, action.payload.token);
       return {
         ...state,
         user: action.payload.user,
+        token: action.payload.token,
         loading: false,
       };
     }
@@ -30,12 +32,14 @@ const authReducer: Reducer<AuthState, AuthAction> = (state = initialState, actio
       return {
         ...state,
         error: action.payload.error,
+        user: null,
+        token: null,
         loading: false,
       };
     }
 
     case AuthActionType.AUTH_LOGOUT: {
-      localStorage.removeItem(USER_KEY_IN_LOCAL_STORAGE);
+      localStorage.removeItem(REACT_APP_TOKEN_KEY_IN_LOCAL_STORAGE);
       return {
         ...state,
         user: null,
@@ -54,6 +58,7 @@ const authReducer: Reducer<AuthState, AuthAction> = (state = initialState, actio
         ...state,
         error: null,
         loading: true,
+        token: null,
       };
     }
 

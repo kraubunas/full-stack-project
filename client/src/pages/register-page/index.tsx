@@ -4,7 +4,7 @@ import { FormikConfig, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useSearchParams } from 'react-router-dom';
 import AuthForm from '../../components/auth-form';
-import UserRegistration from '../../types/user-registration';
+import { UserRegistration } from '../../types/user-registration';
 import { useRootSelector, useRootDispatch } from '../../store/hooks';
 import { selectAuthLoading } from '../../store/selectors';
 import { createRegisterAction } from '../../store/actions-creators';

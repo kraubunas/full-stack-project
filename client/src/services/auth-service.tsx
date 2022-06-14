@@ -1,14 +1,14 @@
-/* eslint-disable @typescript-eslint/no-namespace */
-import { AxiosError } from 'axios';
 import ApiService, { isResponseError } from './api-services';
-import { User, Crudentials } from '../types';
+import { Crudentials, User } from '../types';
 
 export type AuthResponseBody = {
   user: User,
   token: string,
 };
 
-export const login = async (crudentials: Crudentials): Promise<AuthResponseBody> => {
+export type AuthPromise = (crudential: Crudentials) => Promise<AuthResponseBody>;
+
+export const login: AuthPromise = async (crudentials: Crudentials) => {
   try {
     const response = await ApiService.post<AuthResponseBody>('/api/auth/login', crudentials);
 
@@ -22,12 +22,8 @@ export const login = async (crudentials: Crudentials): Promise<AuthResponseBody>
   }
 };
 
-export const register = async (crudentials: Crudentials): Promise<AuthResponseBody> => {
+export const register: AuthPromise = async ({ email, password }: Crudentials) => {
   throw new Error('Testuojames, neskubam.');
-};
-
-export const authenticate = async (token: string): Promise<AuthResponseBody> => {
-  throw new Error('Testuojame authenticate metodą.');
 };
 
 export const checkEmailAvailability = async (email: string): Promise<boolean> => {
@@ -37,7 +33,6 @@ export const checkEmailAvailability = async (email: string): Promise<boolean> =>
 const AuthService = {
   login,
   register,
-  authenticate,
   checkEmailAvailability,
 };
 
