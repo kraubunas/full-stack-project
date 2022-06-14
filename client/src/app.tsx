@@ -27,7 +27,7 @@ const App: React.FC = () => {
 
   if (!loggedIn && token) {
     dispatch(createAuthenticateActionThunk(token));
-    return <div>Autentifikuojama...</div>;
+    return <div />;
   }
 
   return (

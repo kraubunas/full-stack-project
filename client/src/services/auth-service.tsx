@@ -15,7 +15,6 @@ export const login = async (crudentials: Crudentials): Promise<AuthResponseBody>
     if (isResponseError(err)) {
       throw new Error(err.response.data.error);
     }
-    console.log('Neprognozuota klaida');
     throw (err);
   }
 };
@@ -25,7 +24,20 @@ export const register = async (crudentials: Crudentials): Promise<AuthResponseBo
 };
 
 export const authenticate = async (token: string): Promise<AuthResponseBody> => {
-  throw new Error('Testuojame authenticate metodą.');
+  try {
+    const response = await ApiService.post<AuthResponseBody>('/api/auth/authenticate', {}, {
+      headers: {
+        Authorization: token,
+      },
+    });
+
+    return response.data;
+  } catch (err) {
+    if (isResponseError(err)) {
+      throw new Error(err.response.data.error);
+    }
+    throw (err);
+  }
 };
 
 export const checkEmailAvailability = async (email: string): Promise<boolean> => {
