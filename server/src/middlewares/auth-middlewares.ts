@@ -18,6 +18,7 @@ type DecodedInfo = { email: string, role: 'admin' | 'user', iat?: number };
         req.tokenData = {
             email: decodedInfo.email,
             role: decodedInfo.role,
+            token,
         };
 
         next();

@@ -75,3 +75,33 @@ export const register: RequestHandler<
     });
   }
 };
+
+export const authenticate: RequestHandler<
+  unknown,
+  AuthResponseBody
+> = async (req, res) => {
+  try {
+    if (req.tokenData === undefined) {
+      throw new Error('Užšifruotuose duomenyse nėra vartotojo duomenų');
+    }
+    const { email, token } = req.tokenData;
+    const userDoc = await UserModel.findOne({ email });
+
+    if (userDoc === null) {
+      throw new Error(`Vartotojas nerastas su tokiu paštu '${email}'`);
+    }
+    const user = createUserViewModel(userDoc);
+
+    // Čia galėtų būti aprašyti veiksmai, kurie pratęsia token'o gyvavimo laiką
+    // Kitaip tariant, galite iš naujo sukurti naują token'ą su userDoc duomenimis
+
+    res.status(200).json({
+      user,
+      token,
+    });
+  } catch (error) {
+    res.status(400).json({
+      error: error instanceof Error ? error.message : 'Serverio klaida atpažįstant vartotoją',
+    });
+  }
+};
