@@ -20,7 +20,16 @@ export const login = async (crudentials: Crudentials): Promise<AuthResponseBody>
 };
 
 export const register = async (crudentials: Crudentials): Promise<AuthResponseBody> => {
-  throw new Error('Testuojames, neskubam.');
+  try {
+    const res = await ApiService.post<AuthResponseBody>('/api/auth/register', crudentials);
+
+    return res.data;
+  } catch (err) {
+    if (isResponseError(err)) {
+      throw new Error(err.response.data.error);
+    }
+    throw (err);
+  }
 };
 
 export const authenticate = async (token: string): Promise<AuthResponseBody> => {
