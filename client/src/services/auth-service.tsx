@@ -1,4 +1,4 @@
-import ApiService, { isResponseError } from './api-services';
+import ApiService, { formatError, isResponseError } from './api-services';
 import { Crudentials, User } from '../types';
 
 export type AuthResponseBody = {
@@ -12,10 +12,7 @@ export const login = async (crudentials: Crudentials): Promise<AuthResponseBody>
 
     return response.data;
   } catch (err) {
-    if (isResponseError(err)) {
-      throw new Error(err.response.data.error);
-    }
-    throw (err);
+    throw new Error(formatError(err));
   }
 };
 
@@ -25,10 +22,7 @@ export const register = async (crudentials: Crudentials): Promise<AuthResponseBo
 
     return res.data;
   } catch (err) {
-    if (isResponseError(err)) {
-      throw new Error(err.response.data.error);
-    }
-    throw (err);
+    throw new Error(formatError(err));
   }
 };
 
@@ -42,10 +36,7 @@ export const authenticate = async (token: string): Promise<AuthResponseBody> => 
 
     return response.data;
   } catch (err) {
-    if (isResponseError(err)) {
-      throw new Error(err.response.data.error);
-    }
-    throw (err);
+    throw new Error(formatError(err));
   }
 };
 
@@ -55,10 +46,7 @@ export const checkEmailAvailability = async (email: string): Promise<boolean> =>
 
     return response.data.valid;
   } catch (err) {
-    if (isResponseError(err)) {
-      throw new Error(err.response.data.error);
-    }
-    throw (err);
+    throw new Error(formatError(err));
   }
 };
 

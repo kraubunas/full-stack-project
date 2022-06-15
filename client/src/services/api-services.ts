@@ -10,6 +10,15 @@ export const isResponseError = (err: unknown | ResponseError): err is ResponseEr
   && err.response.data.error,
 );
 
+export const formatError = (err: unknown): string => {
+  if (isResponseError(err)) {
+    return err.response.data.error;
+  } if (err instanceof Error) {
+    return err.message;
+  }
+  return err as string;
+};
+
 const API_SERVER = process.env.REACT_APP_API_SERVER;
 
 if (API_SERVER === undefined) {
