@@ -3,6 +3,7 @@ import {
   BrowserRouter,
   Routes,
   Route,
+  useLocation,
 } from 'react-router-dom';
 import { Provider as ReduxProvider } from 'react-redux';
 import HomePage from './pages/home-page';
@@ -21,12 +22,13 @@ import { useRootDispatch } from './store/hooks';
 import { selectAuthToken, selectAuthLoggedIn } from './store/selectors';
 
 const App: React.FC = () => {
+  const location = useLocation();
   const token = useRootSelector(selectAuthToken);
   const loggedIn = useRootSelector(selectAuthLoggedIn);
   const dispatch = useRootDispatch();
 
   if (!loggedIn && token) {
-    dispatch(createAuthenticateActionThunk(token));
+    dispatch(createAuthenticateActionThunk(token, location.pathname));
     return <div />;
   }
 
