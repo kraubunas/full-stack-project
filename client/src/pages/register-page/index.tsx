@@ -3,11 +3,13 @@ import { Alert, TextField } from '@mui/material';
 import { FormikConfig, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useSearchParams } from 'react-router-dom';
+import validator from 'validator';
 import AuthForm from '../../components/auth-form';
 import { UserRegistration } from '../../types/user-registration';
 import { useRootSelector, useRootDispatch } from '../../store/hooks';
 import { selectAuthLoading } from '../../store/selectors';
 import { createRegisterActionThunk } from '../../store/actions-creators';
+import AuthService from '../../services/auth-service';
 
 type RegisterFormikConfig = FormikConfig<UserRegistration>;
 
@@ -19,9 +21,23 @@ const initialValues = {
 
 const validationSchema = Yup.object({
   email: Yup.string()
-    .email()
     .required('Required')
-    .max(32, 'Need 32 symbols or less'),
+    .test(
+      'emailAvailabilityCheck',
+      'Email is not valid',
+      async (email, context) => {
+        if (!email) return false;
+        if (!validator.isEmail(email)) return false;
+        try {
+          const emailIsAvailable = await AuthService.checkEmailAvailability(email);
+          return emailIsAvailable;
+        } catch (error) {
+          throw context.createError({
+            message: error instanceof Error ? error.message : error as string,
+          });
+        }
+      },
+    ),
 
   password: Yup.string()
     .max(32, 'Password must contain 32 characters or less')

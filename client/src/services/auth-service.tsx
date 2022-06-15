@@ -41,7 +41,16 @@ export const authenticate = async (token: string): Promise<AuthResponseBody> => 
 };
 
 export const checkEmailAvailability = async (email: string): Promise<boolean> => {
-  throw new Error('Testuojames, neskubam.');
+  try {
+    const response = await ApiService.get<{ valid: boolean }>(`/api/auth/check-email?email=${email}`);
+
+    return response.data.valid;
+  } catch (err) {
+    if (isResponseError(err)) {
+      throw new Error(err.response.data.error);
+    }
+    throw (err);
+  }
 };
 
 const AuthService = {
