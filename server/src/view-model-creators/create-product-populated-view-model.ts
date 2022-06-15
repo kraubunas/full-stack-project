@@ -1,9 +1,8 @@
 import { ProductPopulatedDocument } from '../models/product-model';
-import createCategoryViewModel, { CategoryViewModel } from './create-category-view-model';
 import { ProductViewModel } from './create-product-view-model';
 
 export type ProductPopulatedViewModel = Omit<ProductViewModel, 'categoryIds'> & {
-  categories: CategoryViewModel[],
+  categories: string[],
 };
 
 const createProductPopulatedViewModel = (
@@ -12,9 +11,9 @@ const createProductPopulatedViewModel = (
   id: productPopulatedDoc._id.toString(),
   name: productPopulatedDoc.name,
   price: productPopulatedDoc.price,
-  createdAt: productPopulatedDoc.createdAt,
   updatedAt: productPopulatedDoc.updatedAt,
-  categories: productPopulatedDoc.categories.map(createCategoryViewModel),
+  categories: productPopulatedDoc.categories.map((categoryDoc) => categoryDoc.name),
+  image: productPopulatedDoc.image,
 });
 
 export default createProductPopulatedViewModel;
