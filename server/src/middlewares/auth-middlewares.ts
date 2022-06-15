@@ -45,7 +45,7 @@ export const userMiddleware: RequestHandler = async (req, res, next) => {
         return;
     }
 
-    req.authUser = authUser;
+    req.authUserDoc = authUser;
 
     next();
 };

@@ -8,7 +8,7 @@ declare global {
                 role: string,
                 token: string,
             },
-            authUser: UserDocument,
+            authUserDoc?: UserDocument,
         }
     }
 }
