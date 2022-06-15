@@ -1,11 +1,7 @@
 /* eslint-disable import/prefer-default-export */
-import { Dispatch } from 'redux';
-import Product from '../../../types/products';
-import { AppAction, RootState } from '../../redux-types';
 import {
   CartActionType, CartAddItemAction, CartUpdateItemAction, CartRemoveItemAction,
 } from './cart-types';
-import { CartItem } from '../../../types/cart-item-type';
 
 export const createAddToCartAction = (itemId: string, id: string, amount: number): CartAddItemAction => ({
   type: CartActionType.ADD_TO_CART,

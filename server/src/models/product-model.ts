@@ -7,7 +7,7 @@ type Product = {
     name: string,
     categories: Types.ObjectId[]
     price: string,
-    image: string,
+    image: string[],
     createdAt: string,
     updatedAt: string,
 };
@@ -38,7 +38,7 @@ const productSchema = new Schema<Product, Model<Product>>({
         required: true,
     },
     image: {
-        type: String,
+        type: [String],
         required: true,
     },
 }, {

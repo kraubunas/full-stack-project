@@ -6,8 +6,7 @@ type ProductViewModelCommonProps = {
     id: string,
     name: string,
     price: string,
-    image: string,
-    createdAt: string,
+    image: string[],
     updatedAt: string
 };
 
@@ -28,7 +27,6 @@ const createProductViewModel = async (
         name: productDoc.name,
         price: productDoc.price,
         image: productDoc.image,
-        createdAt: productDoc.createdAt,
         updatedAt: productDoc.updatedAt,
     };
 

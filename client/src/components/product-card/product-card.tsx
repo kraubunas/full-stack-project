@@ -3,7 +3,6 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { AddShoppingCart } from '@mui/icons-material';
-import { NumberPicker } from 'react-widgets/cjs';
 import Product from '../../types/products';
 import Img from '../img';
 import 'react-widgets/styles.css';
