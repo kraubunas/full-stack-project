@@ -1,4 +1,4 @@
-type Product = {
+type ProductPopulated = {
   id: string,
   image: string[],
   price: string,
@@ -6,6 +6,7 @@ type Product = {
   name: string,
   itemId: string,
   amount: number,
+  updatedAt: string,
 };
 
 export default Product;

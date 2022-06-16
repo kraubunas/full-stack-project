@@ -15,7 +15,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import NavbarAuthMenu from './navbar-auth-menu';
 import NavbarLink, { CartStyle } from './navbar-link';
 import Cart from '../cart/cart';
-import { CartItem } from '../../types/cart-item-type';
+import { CartItem } from '../../types/cart-item';
 import { useRootSelector } from '../../store/hooks';
 import { selectAuthLoggedIn } from '../../store/selectors';
 import { selectCartItemsCount } from '../../store/features/cart/cart-selectors';
@@ -63,7 +63,7 @@ const Navbar: React.FC = () => {
             {loggedIn ? <NavbarAuthMenu /> : null}
           </Box>
           <Drawer anchor="right" open={cartOpen} onClose={() => setCartOpen(false)}>
-            <Cart id="1" itemId="5" amount={0} />
+            <Cart id="1" itemId="5" amount={0} createdAt="" updatedAt="" />
           </Drawer>
           <CartStyle>
             <IconButton aria-label="cart" sx={{ zIndex: 100 }} onClick={() => setCartOpen(true)}>

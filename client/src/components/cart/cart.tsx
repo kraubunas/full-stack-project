@@ -7,7 +7,7 @@ import { useRootSelector } from '../../store';
 import { selectCartItems } from '../../store/selectors';
 import { removeFromCart } from '../../store/actions-creators';
 import { useRootDispatch } from '../../store/hooks';
-import { CartItem } from '../../types/cart-item-type';
+import { CartItem } from '../../types/cart-item';
 
 const Cart: React.FC<CartItem> = ({
   id, itemId, amount,
@@ -36,14 +36,14 @@ const Cart: React.FC<CartItem> = ({
         <TableBody>
           {cart.map((product) => (
             <TableRow
-              key={product.itemId}
+              key={product.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <IconButton onClick={removeFromCartAction}>
                 <CloseRoundedIcon />
               </IconButton>
               <TableCell component="th" scope="row">{product.amount}</TableCell>
-              <TableCell align="right">{product.itemId}</TableCell>
+              <TableCell align="right">{product.id}</TableCell>
               <TableCell align="right">{product.id}</TableCell>
               {/* <TableCell align="right">{product.amount}</TableCell> */}
             </TableRow>

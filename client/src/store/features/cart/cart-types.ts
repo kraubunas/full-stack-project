@@ -1,11 +1,9 @@
-import { CartItemJoined } from '../../../types/cart-item-joined';
-import { CartItem } from '../../../types/cart-item-type';
+import { CartItemPopulated } from '../../../types/cart-item-populated';
+import { CartItem } from '../../../types/cart-item';
 import Product from '../../../types/products';
 
 export type CartState = {
-  cartItems: CartItem[],
-  products: Product[],
-  joinedItems: CartItemJoined[],
+  joinedItems: CartItemPopulated[],
 };
 
 export enum CartActionType {
