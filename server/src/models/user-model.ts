@@ -26,7 +26,7 @@ export type CartItemPopulatedDocument = Omit<CartItemDocument, 'item'> & {
 const cartItemSchema = new Schema<CartItem>({
   item: {
     type: Schema.Types.ObjectId,
-    ref: 'Product',
+    ref: 'Item',
     required: true,
   },
   amount: {

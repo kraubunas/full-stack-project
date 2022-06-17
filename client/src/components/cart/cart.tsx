@@ -5,7 +5,6 @@ import {
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { useRootSelector } from '../../store';
 import { selectCartItems } from '../../store/selectors';
-import { removeFromCart } from '../../store/actions-creators';
 import { useRootDispatch } from '../../store/hooks';
 import { CartItem } from '../../types/cart-item';
 
@@ -16,10 +15,10 @@ const Cart: React.FC<CartItem> = ({
 
   const dispatch = useRootDispatch();
 
-  const removeFromCartAction = (): void => {
-    const addRemoveFromCartItemAction = removeFromCart(id);
-    dispatch(addRemoveFromCartItemAction);
-  };
+  // const removeFromCartAction = (): void => {
+  //   const addRemoveFromCartItemAction = removeFromCart(id);
+  //   dispatch(addRemoveFromCartItemAction);
+  // };
 
   return (
 
@@ -34,17 +33,17 @@ const Cart: React.FC<CartItem> = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {cart.map((product) => (
+          {cart.map((item) => (
             <TableRow
-              key={product.id}
+              key={item.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <IconButton onClick={removeFromCartAction}>
+              <IconButton>
                 <CloseRoundedIcon />
               </IconButton>
-              <TableCell component="th" scope="row">{product.amount}</TableCell>
-              <TableCell align="right">{product.id}</TableCell>
-              <TableCell align="right">{product.id}</TableCell>
+              <TableCell component="th" scope="row">{item.amount}</TableCell>
+              <TableCell align="right">{item.id}</TableCell>
+              <TableCell align="right">{item.id}</TableCell>
               {/* <TableCell align="right">{product.amount}</TableCell> */}
             </TableRow>
           ))}

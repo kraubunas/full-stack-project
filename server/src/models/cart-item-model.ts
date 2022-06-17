@@ -20,14 +20,14 @@ export type CartItemDocument = Document<Types.ObjectId, unknown, CartItem> & Car
   _id: Types.ObjectId;
 };
 
-export type CartItemPopulatedDocument = Omit<CartItemDocument, 'product'> & {
+export type CartItemPopulatedDocument = Omit<CartItemDocument, 'item'> & {
   product: ProductPopulatedDocument
 };
 
 const cartItemSchema = new Schema<CartItem, Model<CartItem>>({
   item: {
     type: Schema.Types.ObjectId,
-    ref: 'Product',
+    ref: 'Item',
     required: true,
   },
   amount: {

@@ -18,13 +18,13 @@ const CreateProduct: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const product = {
+    const item = {
       name, image, price, category,
     };
-    fetch('http://localhost:1337/products', {
+    fetch('/api/items', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(product),
+      body: JSON.stringify(item),
     }).then(() => {
       console.log('new product added');
       navigate('/products');

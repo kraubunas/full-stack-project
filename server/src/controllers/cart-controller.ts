@@ -17,7 +17,7 @@ export const getCart: RequestHandler<
     }
 
     const authUserPopulatedDoc = await authUserDoc
-      .populate<{ cartItems: CartItemPopulatedDocument[] }>('cartItems.product');
+      .populate<{ cartItems: CartItemPopulatedDocument[] }>('cartItems.item');
 
     res.status(200).send({
       cartItems: authUserPopulatedDoc.cartItems.map(createCartItemPopulatedViewModel),

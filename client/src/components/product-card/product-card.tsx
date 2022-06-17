@@ -1,13 +1,14 @@
 import {
   Card, Typography, Button, Box,
 } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import { AddShoppingCart } from '@mui/icons-material';
 import ProductPopulated from '../../types/products';
 import Img from '../img';
 import 'react-widgets/styles.css';
-import { useRootDispatch } from '../../store/hooks';
-import { createAddToCartAction, createCartUpdateItemAction } from '../../store/features/cart/cart-action-creators';
+import { useRootDispatch, useRootSelector } from '../../store/hooks';
+import { createModifyCartItemActionThunk } from '../../store/features/cart/cart-action-creators';
+import { selectCartItemAmountByProductId } from '../../store/selectors';
 
 type ProductCardProps = ProductPopulated;
 
@@ -15,12 +16,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
   id, name, categories, price, image,
 }) => {
   const dispatch = useRootDispatch();
+  const cartItemAmount = useRootSelector(selectCartItemAmountByProductId(id));
 
   const addToCart = (): void => {
-    const updateCartItemAction = createCartUpdateItemAction(id);
-    dispatch(updateCartItemAction);
-    const addCartAddItemAction = createAddToCartAction(id);
-    dispatch(addCartAddItemAction);
+    const addToCartAction = createModifyCartItemActionThunk(id);
+    dispatch(addToCartAction);
   };
 
   return (
@@ -38,9 +38,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
         display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 2,
       }}
       >
-        {/* <Box sx={{ width: '70px' }}>
-          <NumberPicker defaultValue={1} min={1} max={5} />
-        </Box> */}
         <Button variant="contained" color="primary" sx={{ display: 'flex', gap: 3 }} onClick={addToCart}>
           <AddShoppingCart />
           Add to cart

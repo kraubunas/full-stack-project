@@ -1,36 +1,33 @@
 import { CartItemPopulated } from '../../../types/cart-item-populated';
-import { CartItem } from '../../../types/cart-item';
-import Product from '../../../types/products';
 
 export type CartState = {
-  joinedItems: CartItemPopulated[],
+  items: CartItemPopulated[],
+  loading: boolean,
+  error: string | null,
 };
 
 export enum CartActionType {
-  ADD_TO_CART = 'ADD_TO_CART',
-  REMOVE_FROM_CART = 'REMOVE_FROM_CART',
-  CART_UPDATE_ITEM = 'CART_UPDATE_ITEM',
+  CART_FETCH_ITEMS_LOADING = 'CART_FETCH_ITEMS_LOADING',
+  CART_FETCH_ITEMS_SUCCESS = 'CART_FETCH_ITEMS_SUCCESS',
+  CART_FETCH_ITEMS_FAILURE = 'CART_FETCH_ITEMS_FAILURE',
 }
 
-export type CartAddItemAction = {
-  type: CartActionType.ADD_TO_CART,
+export type CartFetchItemsLoadingAction = {
+  type: CartActionType.CART_FETCH_ITEMS_LOADING,
+};
+
+export type CartFetchItemsSuccessAction = {
+  type: CartActionType.CART_FETCH_ITEMS_SUCCESS,
   payload: {
-    id: string,
+    items: CartItemPopulated[],
   }
 };
 
-export type CartRemoveItemAction = {
-  type: CartActionType.REMOVE_FROM_CART,
+export type CartFetchItemsFailureAction = {
+  type: CartActionType.CART_FETCH_ITEMS_FAILURE,
   payload: {
-    id: string,
+    error: string,
   }
 };
 
-export type CartUpdateItemAction = {
-  type: CartActionType.CART_UPDATE_ITEM,
-  payload: {
-    id: string,
-  }
-};
-
-export type CartAction = CartAddItemAction | CartUpdateItemAction | CartRemoveItemAction;
+export type CartAction = CartFetchItemsLoadingAction | CartFetchItemsSuccessAction | CartFetchItemsFailureAction;
