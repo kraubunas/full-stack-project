@@ -2,29 +2,19 @@ import {
   AppBar,
   Box,
   Container,
-  Drawer,
-  IconButton,
   Toolbar,
   Typography,
   useMediaQuery,
 } from '@mui/material';
-import React, { useState } from 'react';
-import Badge from '@mui/material/Badge';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import React from 'react';
 import NavbarAuthMenu from './navbar-auth-menu';
-import NavbarLink, { CartStyle } from './navbar-link';
-import Cart from '../cart/cart';
+import NavbarLink from './navbar-link';
 import { useRootSelector } from '../../store/hooks';
 import { selectAuthLoggedIn } from '../../store/selectors';
-import { selectCartItemsCount } from '../../store/features/cart/cart-selectors';
 import theme from '../../styles/theme';
 import NavBarBurgerDropDownMenu from './navbar-burger-dropdown';
 
 const Navbar: React.FC = () => {
-  const [cartOpen, setCartOpen] = useState(false);
-
-  const cartItemsCount = useRootSelector(selectCartItemsCount);
-
   // useEffect(({ cart }) => {
   //   const count = 0;
   //   cart.array.forEach(element => {
@@ -47,7 +37,6 @@ const Navbar: React.FC = () => {
           {
           isMatch
             ? <NavBarBurgerDropDownMenu />
-
             : (
               <>
                 <NavbarLink to="/">Home</NavbarLink>
@@ -59,16 +48,6 @@ const Navbar: React.FC = () => {
           <Box sx={{ display: 'flex' }}>
             {loggedIn ? <NavbarAuthMenu /> : null}
           </Box>
-          <Drawer anchor="right" open={cartOpen} onClose={() => setCartOpen(false)}>
-            <Cart id="1" itemId="5" amount={0} updatedAt="" />
-          </Drawer>
-          <CartStyle>
-            <IconButton aria-label="cart" sx={{ zIndex: 100 }} onClick={() => setCartOpen(true)}>
-              <Badge badgeContent={cartItemsCount} color="primary">
-                <ShoppingCartIcon htmlColor="white" />
-              </Badge>
-            </IconButton>
-          </CartStyle>
         </Toolbar>
       </Container>
     </AppBar>

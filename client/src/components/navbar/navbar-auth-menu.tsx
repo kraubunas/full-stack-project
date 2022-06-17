@@ -8,12 +8,18 @@ import {
   MenuItem,
   Divider,
   Typography,
+  Badge,
+  Drawer,
+  IconButton,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import deepPurple from '@mui/material/colors/deepPurple';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useRootDispatch, useRootSelector } from '../../store/hooks';
-import { selectAuthUser } from '../../store/selectors';
+import { selectAuthUser, selectCartItemsCount } from '../../store/selectors';
 import { authLogoutAction } from '../../store/features/auth/auth-action-creators';
+import Cart from '../cart/cart';
+import { CartStyle } from './navbar-link';
 
 const NavbarAuthMenu: React.FC = () => {
   const navigate = useNavigate();
@@ -21,6 +27,8 @@ const NavbarAuthMenu: React.FC = () => {
   const dispatch = useRootDispatch();
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const popperAnchorRef = useRef<HTMLDivElement>(null);
+
+  const cartItemsCount = useRootSelector(selectCartItemsCount);
 
   const logout = () => {
     dispatch(authLogoutAction);
@@ -34,11 +42,24 @@ const NavbarAuthMenu: React.FC = () => {
     setMenuOpen(!menuOpen);
   };
 
+  const [cartOpen, setCartOpen] = useState(false);
+
   return (
     <Box
       ref={popperAnchorRef}
       sx={{ display: 'inline-flex', alignItems: 'center', height: 64 }}
     >
+      <Drawer anchor="right" open={cartOpen} onClose={() => setCartOpen(false)}>
+        <Cart id="1" itemId="5" amount={0} updatedAt="" />
+      </Drawer>
+      <CartStyle>
+        <IconButton aria-label="cart" sx={{ zIndex: 100 }} onClick={() => setCartOpen(true)}>
+          <Badge badgeContent={cartItemsCount} color="primary">
+            <ShoppingCartIcon htmlColor="white" />
+          </Badge>
+        </IconButton>
+      </CartStyle>
+
       <Box
         sx={{
           display: 'flex',
@@ -48,7 +69,7 @@ const NavbarAuthMenu: React.FC = () => {
         onClick={handleMenuOpen}
       >
         <Typography sx={{ mr: 2, userSelect: 'none' }}>{user?.email}</Typography>
-        <Avatar sx={{ bgcolor: deepPurple[500] }}>OP</Avatar>
+        <Avatar sx={{ bgcolor: deepPurple[500] }}>{user?.email.toString().toUpperCase().charAt(0)}</Avatar>
       </Box>
       <Popper
         placement="bottom-end"
