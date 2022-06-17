@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable no-console */
 import React, { useEffect } from 'react';
 import {
@@ -6,7 +7,7 @@ import {
 import Section from '../../components/section';
 import { useRootSelector } from '../../store';
 import { selectProductsItems, selectProductsItemsLoading } from '../../store/selectors';
-import { productFetchItemsAction } from '../../store/features/products/products-action-creators';
+import { productFetchItemsActionThunk } from '../../store/features/products/products-action-creators';
 import { useRootDispatch } from '../../store/hooks';
 import DeleteUpdateProducts from '../../components/product-card/product-card-delete-update';
 
@@ -15,7 +16,7 @@ const UpdateProductsPage: React.FC = () => {
   const dispatch = useRootDispatch();
 
   useEffect(() => {
-    dispatch(productFetchItemsAction);
+    dispatch(productFetchItemsActionThunk);
   }, []);
 
   return (
@@ -30,7 +31,7 @@ const UpdateProductsPage: React.FC = () => {
 
       <Section sx={(theme) => theme.mixins.section}>
         <>
-          {products.map((product) => (
+          {products?.map((product) => (
             <Grid key={product.id} item xs={4}>
               <DeleteUpdateProducts {...product} />
             </Grid>

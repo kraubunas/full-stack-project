@@ -6,7 +6,7 @@ import ProductModel, { ProductPopulatedDocument, ProductDocument, ProductProps }
 import createProductViewModel, { ProductViewModel } from '../../view-model-creators/create-product-view-model';
 import createProductPopulatedViewModel, { ProductPopulatedViewModel } from '../../view-model-creators/create-product-populated-view-model';
 
-type SingularProductResponse = { product: ProductViewModel } | ErrorResponseBody;
+type SingularProductResponse = { item: ProductViewModel } | ErrorResponseBody;
 
 const validateCategoriesIds = async (categoriesIds?: string[]) => {
   if (categoriesIds !== undefined && categoriesIds.length > 0) {
@@ -26,30 +26,30 @@ const validateCategoriesIds = async (categoriesIds?: string[]) => {
 
 export const getProducts: RequestHandler<
   unknown,
-  { products: ProductViewModel[] | ProductPopulatedViewModel[] },
+  { items: ProductViewModel[] | ProductPopulatedViewModel[] },
   unknown,
   { populate?: string }
 > = async (req, res) => {
   const { populate } = req.query;
   const shouldPopulateCategories = populate === 'categories';
 
-  let products: ProductViewModel[] | ProductPopulatedViewModel[];
+  let items: ProductViewModel[] | ProductPopulatedViewModel[];
   if (shouldPopulateCategories) {
     const productPopulatedDocs = await ProductModel
       .find()
       .populate<{ categories: CategoryDocument[] }>('categories');
-    products = productPopulatedDocs.map(createProductPopulatedViewModel);
+    items = productPopulatedDocs.map(createProductPopulatedViewModel);
   } else {
     const productDocs = await ProductModel.find();
-    products = productDocs.map(createProductViewModel);
+    items = productDocs.map(createProductViewModel);
   }
 
-  res.status(200).json({ products });
+  res.status(200).json({ items });
 };
 
 export const getProduct: RequestHandler<
   { id: string },
-  { product: ProductViewModel | ProductPopulatedViewModel } | ErrorResponseBody,
+  { item: ProductViewModel | ProductPopulatedViewModel } | ErrorResponseBody,
   unknown,
   { populate?: string }
 > = async (req, res) => {
@@ -65,11 +65,11 @@ export const getProduct: RequestHandler<
     if (productDoc === null) {
       throw new Error(`Produktas su id '${id}' nerastas`);
     }
-    const product = shouldPopulateCategories
+    const item = shouldPopulateCategories
       ? createProductPopulatedViewModel(productDoc as ProductPopulatedDocument)
       : createProductViewModel(productDoc as ProductDocument);
 
-    res.status(200).json({ product });
+    res.status(200).json({ item });
   } catch (error) {
     res.status(404).json({
       error: `Produktas su id '${id}' nerastas`,
@@ -88,7 +88,7 @@ export const createProduct: RequestHandler<
     productProps.categories = uniqCategoriesIds;
     const productDoc = await ProductModel.create(productProps);
     const productViewModel = createProductViewModel(productDoc);
-    res.status(201).json({ product: productViewModel });
+    res.status(201).json({ item: productViewModel });
   } catch (err) {
     const error = err instanceof Error.ValidationError
       ? formatProductValidationError(err)
@@ -113,7 +113,7 @@ export const updateProduct: RequestHandler<
       throw new Error(`Produktas su id '${id}' nerastas`);
     }
     const productViewModel = createProductViewModel(productDoc);
-    res.status(200).json({ product: productViewModel });
+    res.status(200).json({ item: productViewModel });
   } catch (error) {
     res.status(404).json({
       error: error instanceof Error ? error.message : 'Blogi produkto duomenys',
@@ -133,7 +133,7 @@ export const deleteProduct: RequestHandler<
       throw new Error(`Produktas su id '${id}' nerastas`);
     }
     const productViewModel = createProductViewModel(productDoc);
-    res.status(200).json({ product: productViewModel });
+    res.status(200).json({ item: productViewModel });
   } catch (error) {
     res.status(404).json({
       error: error instanceof Error ? error.message : 'Klaida trinant produktą',

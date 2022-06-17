@@ -24,6 +24,14 @@ const productsReducer: Reducer<ProductState, ProductAction> = (state = initialSt
       };
     }
 
+    case ProductsActionType.PRODUCT_FETCH_ITEMS_FAILURE: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+      };
+    }
+
     case ProductsActionType.PRODUCT_CHANGE_ITEM_AMOUNT: {
       return {
         ...state,

@@ -1,7 +1,7 @@
-import Product from '../../../types/products';
+import ProductPopulated from '../../../types/products';
 
 export type ProductState = {
-  productItems: Product[],
+  productItems: ProductPopulated[],
   loading: boolean
 };
 
@@ -19,7 +19,7 @@ export type ProductFetchItemsLoadingAction = {
 export type ProductFetchItemsSuccessAction = {
   type: ProductsActionType.PRODUCT_FETCH_ITEMS_SUCCESS,
   payload: {
-    items: Product[],
+    items: ProductPopulated[],
   }
 };
 

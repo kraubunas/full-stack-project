@@ -9,7 +9,7 @@ const initialState: CartState = {
 };
 
 const cartReducer: Reducer<CartState, CartAction> = (state = initialState, action) => {
-  const inCart = state.joinedItems.find((itm) => (itm.id === action.payload.itemId));
+  const inCart = state.joinedItems.find((itm) => (itm.id === action.payload.id));
   // const items = state.products.find((prod) => prod.id === action.payload.itemId);
   switch (action.type) {
     case CartActionType.ADD_TO_CART: {
@@ -19,7 +19,7 @@ const cartReducer: Reducer<CartState, CartAction> = (state = initialState, actio
           ? state.joinedItems.map((item) => (item.id === action.payload.id
             ? { ...item, amount: item.amount + 1 } : item))
           : [...state.joinedItems, {
-            id: createId(), itemId: action.payload.itemId, amount: 1,
+            id: createId(), itemId: action.payload.id, amount: 1,
           }],
         // cia isidet name, category price
       };
@@ -29,7 +29,7 @@ const cartReducer: Reducer<CartState, CartAction> = (state = initialState, actio
       return {
         ...state,
         cartItems: state.joinedItems.map((item) => (
-          item.id !== action.payload.itemId
+          item.id !== action.payload.id
             ? { ...item, amount: item.amount }
             : item
         )),
@@ -39,7 +39,7 @@ const cartReducer: Reducer<CartState, CartAction> = (state = initialState, actio
     case CartActionType.REMOVE_FROM_CART: {
       return {
         ...state,
-        cartItems: state.joinedItems.filter((item) => (item.id !== action.payload.itemId)),
+        cartItems: state.joinedItems.filter((item) => (item.id !== action.payload.id)),
       };
     }
 

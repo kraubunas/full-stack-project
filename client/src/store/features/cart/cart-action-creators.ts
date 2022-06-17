@@ -3,19 +3,19 @@ import {
   CartActionType, CartAddItemAction, CartUpdateItemAction, CartRemoveItemAction,
 } from './cart-types';
 
-export const createAddToCartAction = (itemId: string, id: string, amount: number): CartAddItemAction => ({
+export const createAddToCartAction = (id: string): CartAddItemAction => ({
   type: CartActionType.ADD_TO_CART,
-  payload: { itemId, id, amount },
+  payload: { id },
 });
 
-export const createCartUpdateItemAction = (itemId: string, id: string, amount: number): CartUpdateItemAction => ({
+export const createCartUpdateItemAction = (id: string): CartUpdateItemAction => ({
   type: CartActionType.CART_UPDATE_ITEM,
-  payload: { itemId, id, amount },
+  payload: { id },
 });
 
-export const removeFromCart = (itemId: string, id: string, amount: number): CartRemoveItemAction => ({
+export const removeFromCart = (id: string): CartRemoveItemAction => ({
   type: CartActionType.REMOVE_FROM_CART,
-  payload: { itemId, id, amount },
+  payload: { id },
 });
 
 // export const createAddToCartActionThunk = (itemId: string, id: string, amount: number, name: string, category: string, price: string) => (

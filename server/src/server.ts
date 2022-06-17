@@ -17,7 +17,7 @@ server.use(cors());
 server.use(morgan(':method :url :status'));
 server.use(express.static('public'));
 server.use(express.json());
-server.use('/api/products', productsRouter);
+server.use('/api/items', productsRouter);
 server.use('/api/categories', categoriesRouter);
 server.use('/api/auth', authRouter);
 server.use('/api/cart', cartRouter);

@@ -10,14 +10,14 @@ import { useRootDispatch } from '../../store/hooks';
 import { CartItem } from '../../types/cart-item';
 
 const Cart: React.FC<CartItem> = ({
-  id, itemId, amount,
+  id,
 }) => {
   const cart = useRootSelector(selectCartItems);
 
   const dispatch = useRootDispatch();
 
   const removeFromCartAction = (): void => {
-    const addRemoveFromCartItemAction = removeFromCart(id, itemId, amount);
+    const addRemoveFromCartItemAction = removeFromCart(id);
     dispatch(addRemoveFromCartItemAction);
   };
 

@@ -5,16 +5,16 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import UpdateIcon from '@mui/icons-material/Update';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import Product from '../../types/products';
+import ProductPopulated from '../../types/products';
 import Img from '../img';
 import 'react-widgets/styles.css';
 import { useRootDispatch } from '../../store/hooks';
 import ProductCardUpdate from './product-card-update';
 
-type ProductCardProps = Product;
+type ProductCardProps = ProductPopulated;
 
 const DeleteUpdateProducts: React.FC<ProductCardProps> = ({
-  id, name, category, price, image, itemId, amount,
+  id, name, categories, price, image,
 }) => {
   const dispatch = useRootDispatch();
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ const DeleteUpdateProducts: React.FC<ProductCardProps> = ({
       </Typography>
       <Img src={image[0]} sx={{ height: 200, width: '100%' }} alt="" />
       <Typography variant="h6" component="p">
-        {`${category}`}
+        {`${categories}`}
       </Typography>
       <Typography variant="body1">{`${price}`}</Typography>
       <Box sx={{
