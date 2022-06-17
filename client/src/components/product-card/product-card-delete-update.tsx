@@ -49,10 +49,7 @@ const DeleteUpdateProducts: React.FC<ProductCardProps> = ({
           <NumberPicker defaultValue={1} min={1} max={5} />
         </Box> */}
         <Container sx={{ display: 'inline-flex', gap: 2 }}>
-          <Button variant="contained" color="warning" sx={{ display: 'flex', gap: 3 }} onClick={handleUpdate}>
-            <UpdateIcon />
-            Update
-          </Button>
+          <ProductCardUpdate />
           <Button variant="contained" color="error" sx={{ display: 'flex', gap: 3 }} onClick={handleDelete}>
             <DeleteForeverIcon />
             Delete
