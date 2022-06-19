@@ -1,35 +1,63 @@
 import React, { useEffect, useState } from 'react';
+import * as Yup from 'yup';
 import {
   Typography, Container, Paper, TextField, Button, FormControl, FormLabel, RadioGroup, FormControlLabel, InputAdornment,
 } from '@mui/material';
 import Radio from '@mui/material/Radio';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import { useNavigate } from 'react-router-dom';
-import { useRootSelector } from '../../store/hooks';
+import { FormikConfig, useFormik } from 'formik';
+import { useRootSelector, useRootDispatch } from '../../store/hooks';
 import { selectAuthUser } from '../../store/selectors';
+import { productCreateNewProductAction } from '../../store/features/products/products-action-creators';
+import { CreateProduct } from '../../types/products';
 
-const CreateProduct: React.FC = () => {
+type CreateNewProductFormik = FormikConfig<CreateProduct>;
+
+const validationSchema = Yup.object({
+  name: Yup.string()
+    .required('Required field'),
+  image: Yup.string()
+    .required('Required field'),
+  price: Yup.string()
+    .required('Required field'),
+});
+
+const CreateNewProductPage: React.FC = () => {
   const user = useRootSelector(selectAuthUser);
+  const dispatch = useRootDispatch();
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [image, setImage] = useState(['']);
   const [price, setPrice] = useState('');
   const [category, setCategory] = useState('');
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const item = {
-      name, image, price, category,
-    };
-    fetch('/api/items', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(item),
-    }).then(() => {
-      console.log('new product added');
-      navigate('/products');
-    });
+  const initialValues = {
+    name: '',
+    image: [''],
+    price: '',
+    categoryIds: '',
+    updatedAt: '',
   };
+
+  const handleFormSubmit: CreateNewProductFormik['onSubmit'] = (item) => {
+    const createProductAction = productCreateNewProductAction({ ...item, categoryIds: category });
+    dispatch(createProductAction);
+    navigate('/products');
+  };
+
+  const {
+    values,
+    touched,
+    errors,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+  } = useFormik<CreateProduct>({
+    initialValues,
+    onSubmit: handleFormSubmit,
+    validationSchema,
+  });
 
   return (
     <Container sx={{
@@ -64,9 +92,37 @@ const CreateProduct: React.FC = () => {
             }}
             onSubmit={handleSubmit}
           >
-            <TextField type="text" required value={name} onChange={(e) => setName(e.target.value)} label="Product name" />
-            <TextField type="url" required value={image} onChange={(e) => setImage([e.target.value])} label="Image URL" />
-            <TextField type="text" required value={price} onChange={(e) => setPrice(e.target.value)} label="Price in €" InputProps={{ endAdornment: <InputAdornment position="end">€</InputAdornment> }} />
+            <TextField
+              name="name"
+              type="text"
+              label="Product name"
+              value={values.name}
+              fullWidth
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.name && Boolean(errors.name)}
+            />
+            <TextField
+              name="image"
+              type="url"
+              label="Image URL"
+              value={values.image}
+              fullWidth
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.image && Boolean(errors.image)}
+            />
+            <TextField
+              name="price"
+              type="text"
+              label="Price in €"
+              value={values.price}
+              fullWidth
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.price && Boolean(errors.price)}
+              InputProps={{ endAdornment: <InputAdornment position="end">€</InputAdornment> }}
+            />
             <FormControl required>
               <FormLabel>Category</FormLabel>
               <RadioGroup row value={category} onChange={(e) => setCategory(e.target.value)}>
@@ -82,4 +138,4 @@ const CreateProduct: React.FC = () => {
   );
 };
 
-export default CreateProduct;
+export default CreateNewProductPage;

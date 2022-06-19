@@ -1,4 +1,5 @@
-import ProductPopulated from '../types/products';
+import { Token } from '@mui/icons-material';
+import { ProductPopulated, CreateProduct } from '../types/products';
 import ApiService, { formatError } from './api-services';
 
 const fetchProducts = async (): Promise<ProductPopulated[]> => {
@@ -10,8 +11,22 @@ const fetchProducts = async (): Promise<ProductPopulated[]> => {
   }
 };
 
+const createNewProduct = async (item: CreateProduct, token: string) => {
+  const { data } = await ApiService.post<{ item: CreateProduct }>(
+    'api/items',
+    item,
+    {
+      headers: {
+        Authorization: token,
+      },
+    },
+  );
+  return data.item;
+};
+
 const ProductService = {
   fetchProducts,
+  createNewProduct,
 };
 
 export default ProductService;

@@ -10,7 +10,7 @@ const initialState: CartState = {
 
 const cartReducer: Reducer<CartState, CartAction> = (state = initialState, action) => {
   switch (action.type) {
-    case CartActionType.CART_FETCH_ITEMS_LOADING: {
+    case CartActionType.CART_FETCH_LOADING: {
       return {
         ...state,
         loading: true,
@@ -18,7 +18,7 @@ const cartReducer: Reducer<CartState, CartAction> = (state = initialState, actio
       };
     }
 
-    case CartActionType.CART_FETCH_ITEMS_SUCCESS: {
+    case CartActionType.CART_FETCH_SUCCESS: {
       return {
         ...state,
         loading: false,
@@ -26,7 +26,7 @@ const cartReducer: Reducer<CartState, CartAction> = (state = initialState, actio
       };
     }
 
-    case CartActionType.CART_FETCH_ITEMS_FAILURE: {
+    case CartActionType.CART_FETCH_FAILURE: {
       return {
         ...state,
         loading: false,

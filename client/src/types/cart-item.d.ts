@@ -4,3 +4,7 @@ export type CartItem = {
   amount: number,
   updatedAt: string,
 };
+
+export type CartItemProps = {
+  amount: number
+};

@@ -1,4 +1,4 @@
-import ProductPopulated from '../../../types/products';
+import { CreateProduct, ProductPopulated } from '../../../types/products';
 
 export type ProductState = {
   productItems: ProductPopulated[],
@@ -10,6 +10,7 @@ export enum ProductsActionType {
   PRODUCT_FETCH_ITEMS_SUCCESS = 'PRODUCT_FETCH_ITEMS_SUCCESS',
   PRODUCT_FETCH_ITEMS_FAILURE = 'PRODUCT_FETCH_ITEMS_FAILURE',
   PRODUCT_CHANGE_ITEM_AMOUNT = 'PRODUCT_CHANGE_ITEM_AMOUNT',
+  PRODUCT_CREATE_NEW_ITEM = 'PRODUCT_CREATE_NEW_ITEM',
 }
 
 export type ProductFetchItemsLoadingAction = {
@@ -36,6 +37,13 @@ export type ProductChangeItemAmountAction = {
     id: string,
     amount: number
   },
+};
+
+export type ProductCreateNewItemAction = {
+  type: ProductsActionType.PRODUCT_CREATE_NEW_ITEM,
+  payload: {
+    item: CreateProduct;
+  }
 };
 
 export type ProductAction = ProductFetchItemsLoadingAction | ProductFetchItemsSuccessAction | ProductFetchItemsFailureAction | ProductChangeItemAmountAction;

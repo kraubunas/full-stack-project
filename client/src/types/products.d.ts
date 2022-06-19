@@ -1,10 +1,12 @@
-type ProductPopulated = {
+export type ProductPopulated = {
   id: string,
   name: string,
-  categories: string,
+  categoryIds: string,
   price: string,
   image: string[],
   updatedAt: string,
 };
 
-export default ProductPopulated;
+export type CreateProduct = Omit<ProductPopulated, 'id' | 'categoryIds'> & {
+  categoryIds: string
+};

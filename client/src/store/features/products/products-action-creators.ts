@@ -1,6 +1,5 @@
 /* eslint-disable import/prefer-default-export */
 import { Dispatch } from 'redux';
-import axios from 'axios';
 import { AppAction, RootState } from '../../redux-types';
 import {
   ProductFetchItemsFailureAction,
@@ -8,7 +7,7 @@ import {
   ProductFetchItemsSuccessAction,
   ProductsActionType,
 } from './products-types';
-import ProductPopulated from '../../../types/products';
+import { CreateProduct, ProductPopulated } from '../../../types/products';
 import ProductService from '../../../services/products-service';
 
 const productFetchItemsLoadingAction: ProductFetchItemsLoadingAction = {
@@ -36,4 +35,16 @@ export const productFetchItemsActionThunk = async (dispatch: Dispatch<AppAction>
     const shopFetchProductsFailureAction = createProductFecthItemsFailureAction(errMsg);
     dispatch(shopFetchProductsFailureAction);
   }
+};
+
+export const productCreateNewProductAction = (item: CreateProduct) => async (
+  dispatch: Dispatch<AppAction>,
+  getState: () => RootState,
+): Promise<void> => {
+  const { token } = getState().auth;
+  if (token === null) {
+    throw new Error('Please login');
+  }
+  await ProductService.createNewProduct(item, token);
+  productFetchItemsActionThunk(dispatch);
 };
