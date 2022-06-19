@@ -11,6 +11,7 @@ export enum ProductsActionType {
   PRODUCT_FETCH_ITEMS_FAILURE = 'PRODUCT_FETCH_ITEMS_FAILURE',
   PRODUCT_CHANGE_ITEM_AMOUNT = 'PRODUCT_CHANGE_ITEM_AMOUNT',
   PRODUCT_CREATE_NEW_ITEM = 'PRODUCT_CREATE_NEW_ITEM',
+  PRODUCT_DELETE_ITEM = 'PRODUCT_DELETE_ITEM',
 }
 
 export type ProductFetchItemsLoadingAction = {
@@ -46,4 +47,11 @@ export type ProductCreateNewItemAction = {
   }
 };
 
-export type ProductAction = ProductFetchItemsLoadingAction | ProductFetchItemsSuccessAction | ProductFetchItemsFailureAction | ProductChangeItemAmountAction;
+export type ProductDeleteItemAction = {
+  type: ProductsActionType.PRODUCT_DELETE_ITEM,
+  payload: {
+    id: string;
+  }
+};
+
+export type ProductAction = ProductFetchItemsLoadingAction | ProductFetchItemsSuccessAction | ProductFetchItemsFailureAction | ProductChangeItemAmountAction | ProductCreateNewItemAction | ProductDeleteItemAction;

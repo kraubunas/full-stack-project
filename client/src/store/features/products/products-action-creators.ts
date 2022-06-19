@@ -48,3 +48,15 @@ export const productCreateNewProductAction = (item: CreateProduct) => async (
   await ProductService.createNewProduct(item, token);
   productFetchItemsActionThunk(dispatch);
 };
+
+export const productDeleteProductAction = (id: string) => async (
+  dispatch: Dispatch<AppAction>,
+  getState: () => RootState,
+): Promise<void> => {
+  const { token } = getState().auth;
+  if (token === null) {
+    throw new Error('Please login');
+  }
+  await ProductService.deleteProduct(id, token);
+  productFetchItemsActionThunk(dispatch);
+};

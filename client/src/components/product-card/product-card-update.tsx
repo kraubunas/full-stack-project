@@ -35,7 +35,7 @@ const ProductCardUpdate = () => {
       name, image, price, categories,
     };
     fetch('/api/items', {
-      method: 'POST',
+      method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(product),
     }).then(() => {

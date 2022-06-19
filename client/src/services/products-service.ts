@@ -1,4 +1,3 @@
-import { Token } from '@mui/icons-material';
 import { ProductPopulated, CreateProduct } from '../types/products';
 import ApiService, { formatError } from './api-services';
 
@@ -24,9 +23,22 @@ const createNewProduct = async (item: CreateProduct, token: string) => {
   return data.item;
 };
 
+const deleteProduct = async (id: string, token: string) => {
+  const { data } = await ApiService.delete<{ item: ProductPopulated }>(
+    `api/items/${id}`,
+    {
+      headers: {
+        Authorization: token,
+      },
+    },
+  );
+  return data.item;
+};
+
 const ProductService = {
   fetchProducts,
   createNewProduct,
+  deleteProduct,
 };
 
 export default ProductService;

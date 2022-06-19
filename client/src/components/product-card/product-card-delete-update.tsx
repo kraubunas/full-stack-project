@@ -10,6 +10,7 @@ import Img from '../img';
 import 'react-widgets/styles.css';
 import { useRootDispatch } from '../../store/hooks';
 import ProductCardUpdate from './product-card-update';
+import { productDeleteProductAction } from '../../store/actions-creators';
 
 type ProductCardProps = ProductPopulated;
 
@@ -19,14 +20,12 @@ const DeleteUpdateProducts: React.FC<ProductCardProps> = ({
   const dispatch = useRootDispatch();
   const navigate = useNavigate();
 
-  const handleDelete = () => {
-    fetch(`http://localhost:1337/products/${id}`, {
-      method: 'DELETE',
-    }).then(() => {
-      console.log('delete action');
-      navigate('/products');
-    });
+  const handleDelete: React.MouseEventHandler<HTMLButtonElement> = () => {
+    const deleteProductAction = productDeleteProductAction(id);
+    dispatch(deleteProductAction);
+    navigate('/products');
   };
+
   const handleUpdate = () => {
 
   };

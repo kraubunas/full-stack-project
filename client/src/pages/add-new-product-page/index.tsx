@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import * as Yup from 'yup';
 import {
   Typography, Container, Paper, TextField, Button, FormControl, FormLabel, RadioGroup, FormControlLabel, InputAdornment,
@@ -27,9 +27,6 @@ const CreateNewProductPage: React.FC = () => {
   const user = useRootSelector(selectAuthUser);
   const dispatch = useRootDispatch();
   const navigate = useNavigate();
-  const [name, setName] = useState('');
-  const [image, setImage] = useState(['']);
-  const [price, setPrice] = useState('');
   const [category, setCategory] = useState('');
 
   const initialValues = {
