@@ -122,9 +122,21 @@ const CreateNewProductPage: React.FC = () => {
             />
             <FormControl required>
               <FormLabel>Category</FormLabel>
-              <RadioGroup row value={category} onChange={(e) => setCategory(e.target.value)}>
-                <FormControlLabel value="candlestick" control={<Radio />} label="Candlestick" />
-                <FormControlLabel value="candle" control={<Radio />} label="Candle" />
+              <RadioGroup
+                row
+                value={values.categoryIds}
+                onChange={handleChange}
+              >
+                <FormControlLabel
+                  value="candlestick"
+                  control={<Radio name="categoryIds" value="candlestick" />}
+                  label="Candlestick"
+                />
+                <FormControlLabel
+                  value="candle"
+                  control={<Radio name="categoryIds" value="candle" />}
+                  label="Candle"
+                />
               </RadioGroup>
             </FormControl>
             <Button type="submit" variant="contained">Add product</Button>

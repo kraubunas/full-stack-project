@@ -26,9 +26,6 @@ const DeleteUpdateProducts: React.FC<ProductCardProps> = ({
     navigate('/products');
   };
 
-  const handleUpdate = () => {
-
-  };
   return (
 
     <Card sx={(theme) => theme.mixins.box}>
