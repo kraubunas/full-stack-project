@@ -9,7 +9,6 @@ import { ProductPopulatedDocument } from './product-model';
 
 export type CartItem = {
   item: Types.ObjectId,
-  amount: number
   createdAt: string,
   updatedAt: string,
 };
@@ -28,10 +27,6 @@ const cartItemSchema = new Schema<CartItem, Model<CartItem>>({
   item: {
     type: Schema.Types.ObjectId,
     ref: 'Item',
-    required: true,
-  },
-  amount: {
-    type: Number,
     required: true,
   },
 });

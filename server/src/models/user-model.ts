@@ -7,7 +7,6 @@ import { ProductDocument } from './product-model';
 export type CartItem = {
     _id: Types.ObjectId,
     item: Types.ObjectId,
-    amount: number,
     createdAt: string,
     updatedAt: string,
 
@@ -27,10 +26,6 @@ const cartItemSchema = new Schema<CartItem>({
   item: {
     type: Schema.Types.ObjectId,
     ref: 'Item',
-    required: true,
-  },
-  amount: {
-    type: Number,
     required: true,
   },
 }, {

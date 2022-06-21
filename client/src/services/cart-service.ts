@@ -19,8 +19,8 @@ const fetchCartItems = async (token: string): Promise<CartItemPopulated[]> => {
   }
 };
 
-const createNewCartItem = async (item: CartItemPopulated, token: string) => {
-  const { data } = await ApiService.post<{ item: CartItemPopulated }>(
+const createNewCartItem = async (item: CartItemPopulated[], token: string) => {
+  const { data } = await ApiService.post<{ item: CartItemPopulated[] }>(
     'api/cart/add-item',
     item,
     {

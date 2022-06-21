@@ -45,7 +45,7 @@ export const cartFetchItemsActionThunk = async (
   }
 };
 
-export const createCartAddItemAction = (item: CartItemPopulated) => async (
+export const createCartAddItemAction = (item: CartItemPopulated[]) => async (
   dispatch: Dispatch<AppAction>,
   getState: () => RootState,
 ): Promise<void> => {

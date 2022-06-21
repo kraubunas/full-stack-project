@@ -10,6 +10,8 @@ import { useRootDispatch, useRootSelector } from '../../store/hooks';
 import { selectAuthLoggedIn } from '../../store/features/auth/auth-selectors';
 import { createCartAddItemAction } from '../../store/actions-creators';
 import { CartItemPopulated } from '../../types/cart-item-populated';
+import { selectCartItems } from '../../store/selectors';
+import { CartItem } from '../../types';
 
 type ProductCardProps = ProductPopulated;
 
@@ -18,10 +20,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const loggedIn = useRootSelector(selectAuthLoggedIn);
   const dispatch = useRootDispatch();
-  const handleAddToCart = (cartItem: CartItemPopulated) => {
+  const handleAddToCart = (cartItem: CartItemPopulated[]) => {
     const createProductAction = createCartAddItemAction(cartItem);
     dispatch(createProductAction);
+    console.log(cartItem);
   };
+
+  const cart: CartItemPopulated[] = useRootSelector(selectCartItems);
+
   return (
 
     <Card sx={(theme) => theme.mixins.box}>
@@ -48,7 +54,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             variant="contained"
             color="primary"
             sx={{ display: 'flex', gap: 3 }}
-            onClick={() => handleAddToCart}
+            onClick={() => handleAddToCart(cart)}
           >
             <AddShoppingCart />
             Add to cart

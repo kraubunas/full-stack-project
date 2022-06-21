@@ -42,7 +42,7 @@ export type CartDeleteItemAction = {
 export type CartCreateItemAction = {
   type: CartActionType.CART_CREATE_ITEM,
   payload: {
-    item: CartItemPopulated,
+    item: CartItemPopulated[],
   }
 };
 

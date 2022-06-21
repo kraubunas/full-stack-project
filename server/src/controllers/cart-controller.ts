@@ -74,7 +74,6 @@ export const updateItem: RequestHandler<
 > = async (req, res) => {
   const { itemId } = req.params;
   const { authUserDoc } = req;
-  const { amount } = req.body;
 
   try {
     if (authUserDoc === undefined) {
@@ -87,11 +86,6 @@ export const updateItem: RequestHandler<
 
     if (cartItemRef === undefined) {
       throw new Error(`Nerastas krepšelio daiktas su tokiu id: '${itemId}'`);
-    }
-
-    if (amount) {
-      cartItemRef.amount = amount;
-      await authUserDoc.save();
     }
 
     res.status(200).send({
