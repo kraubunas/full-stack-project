@@ -1,4 +1,4 @@
-import { ProductPopulated, CreateProduct } from '../types/products';
+import { ProductPopulated, CreateProduct, UpdateProduct } from '../types/products';
 import ApiService, { formatError } from './api-services';
 
 const fetchProducts = async (): Promise<ProductPopulated[]> => {
@@ -35,10 +35,30 @@ const deleteProduct = async (id: string, token: string) => {
   return data.item;
 };
 
+const updateProduct = async (item: UpdateProduct, token: string) => {
+  const { data } = await ApiService.patch<{ item: UpdateProduct }>(
+    `api/items/${item.id}`,
+    {
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      image: item.image,
+      categoryIds: item.categoryIds,
+    },
+    {
+      headers: {
+        Authorization: token,
+      },
+    },
+  );
+  return data.item;
+};
+
 const ProductService = {
   fetchProducts,
   createNewProduct,
   deleteProduct,
+  updateProduct,
 };
 
 export default ProductService;

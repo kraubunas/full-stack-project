@@ -3,7 +3,6 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import UpdateIcon from '@mui/icons-material/Update';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { ProductPopulated } from '../../types/products';
 import Img from '../img';
@@ -45,7 +44,7 @@ const DeleteUpdateProducts: React.FC<ProductCardProps> = ({
           <NumberPicker defaultValue={1} min={1} max={5} />
         </Box> */}
         <Container sx={{ display: 'inline-flex', gap: 2 }}>
-          <ProductCardUpdate />
+          <ProductCardUpdate id={id} />
           <Button variant="contained" color="error" sx={{ display: 'flex', gap: 3 }} onClick={handleDelete}>
             <DeleteForeverIcon />
             Delete

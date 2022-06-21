@@ -10,3 +10,7 @@ export type ProductPopulated = {
 export type CreateProduct = Omit<ProductPopulated, 'id' | 'categoryIds'> & {
   categoryIds: string
 };
+
+export type UpdateProduct = Omit<ProductPopulated, 'categoryIds'> & {
+  categoryIds?: string
+};

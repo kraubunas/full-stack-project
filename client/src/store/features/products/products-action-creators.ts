@@ -7,7 +7,7 @@ import {
   ProductFetchItemsSuccessAction,
   ProductsActionType,
 } from './products-types';
-import { CreateProduct, ProductPopulated } from '../../../types/products';
+import { CreateProduct, ProductPopulated, UpdateProduct } from '../../../types/products';
 import ProductService from '../../../services/products-service';
 
 const productFetchItemsLoadingAction: ProductFetchItemsLoadingAction = {
@@ -58,5 +58,17 @@ export const productDeleteProductAction = (id: string) => async (
     throw new Error('Please login');
   }
   await ProductService.deleteProduct(id, token);
+  productFetchItemsActionThunk(dispatch);
+};
+
+export const productUpdateProductAction = (item: UpdateProduct) => async (
+  dispatch: Dispatch<AppAction>,
+  getState: () => RootState,
+): Promise<void> => {
+  const { token } = getState().auth;
+  if (token === null) {
+    throw new Error('Please login');
+  }
+  await ProductService.updateProduct(item, token);
   productFetchItemsActionThunk(dispatch);
 };
