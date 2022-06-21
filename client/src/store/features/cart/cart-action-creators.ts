@@ -45,44 +45,16 @@ export const cartFetchItemsActionThunk = async (
   }
 };
 
-export const createModifyCartItemActionThunk = (productId: string, amount: number) => async (
+export const createCartAddItemAction = (item: CartItemPopulated) => async (
   dispatch: Dispatch<AppAction>,
   getState: () => RootState,
 ): Promise<void> => {
-  const { cart, auth: { token } } = getState();
-
-  try {
-    if (token === null) {
-      throw new Error('You need to login');
-    }
-
-    const existingCartItem = cart.items.find((x) => x.item.id === productId);
-
-    if (existingCartItem) {
-      if (amount > 0) {
-      // Siunčiama užklausa į serverį, kad atnaujinti egzistuojantį CartItem
-
-        await CartService.updateCartItem(
-          existingCartItem.id,
-          { amount },
-          token,
-        );
-
-        await cartFetchItemsActionThunk(dispatch, getState);
-      } else {
-      // Siunčiama užklausa į serverį, kad ištrinti egzistuojantį CartItem
-      }
-    } else {
-    // Siunčiama užklausa į serverį, kad sukurti CartItem
-    // const cartAddItemAction = createCartAddItemAction(productId, newAmount);
-    // dispatch(cartAddItemAction);
-      // }
-    }
-  } catch (error) {
-    const errMsg = error instanceof Error ? error.message : String(error);
-    const authFailureAction = createCartFetchItemsFailureAction(errMsg);
-    dispatch(authFailureAction);
+  const { token } = getState().auth;
+  if (token === null) {
+    throw new Error('Please login');
   }
+  await CartService.createNewCartItem(item, token);
+  cartFetchItemsActionThunk(dispatch, getState);
 };
 
 export const cartDeleteItemAction = (id: string) => async (

@@ -19,6 +19,19 @@ const fetchCartItems = async (token: string): Promise<CartItemPopulated[]> => {
   }
 };
 
+const createNewCartItem = async (item: CartItemPopulated, token: string) => {
+  const { data } = await ApiService.post<{ item: CartItemPopulated }>(
+    'api/cart/add-item',
+    item,
+    {
+      headers: {
+        Authorization: token,
+      },
+    },
+  );
+  return data.item;
+};
+
 const updateCartItem = async (
   cartItemId: string,
   cartItemProps: CartItemProps,
@@ -57,6 +70,7 @@ const CartService = {
   fetchCartItems,
   updateCartItem,
   deleteCartItem,
+  createNewCartItem,
 };
 
 export default CartService;

@@ -11,6 +11,7 @@ export enum CartActionType {
   CART_FETCH_SUCCESS = 'CART_FETCH_SUCCESS',
   CART_FETCH_FAILURE = 'CART_FETCH_FAILURE',
   CART_DELETE_ITEM = 'CART_DELETE_ITEM',
+  CART_CREATE_ITEM = 'CART_CREATE_ITEM',
 }
 
 export type CartFetchLoadingAction = {
@@ -38,4 +39,11 @@ export type CartDeleteItemAction = {
   }
 };
 
-export type CartAction = CartFetchLoadingAction | CartFetchSuccessAction | CartFetchFailureAction | CartDeleteItemAction;
+export type CartCreateItemAction = {
+  type: CartActionType.CART_CREATE_ITEM,
+  payload: {
+    item: CartItemPopulated,
+  }
+};
+
+export type CartAction = CartFetchLoadingAction | CartFetchSuccessAction | CartFetchFailureAction | CartDeleteItemAction | CartCreateItemAction;
