@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import {
   Stack, Paper, MenuList, MenuItem, Button, Popper, Grow, ClickAwayListener,
 } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
 import NavbarLink from './navbar-link';
 
 const NavbarVisitorMenu: React.FC = () => {
@@ -32,6 +33,14 @@ const NavbarVisitorMenu: React.FC = () => {
 
     prevOpen.current = open;
   }, [open]);
+
+  const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState<boolean>(false);
+
+  const handleNavigate = (route: string) => {
+    setMenuOpen(false);
+    navigate(route);
+  };
 
   return (
     <Stack direction="row" spacing={2}>
@@ -70,11 +79,11 @@ const NavbarVisitorMenu: React.FC = () => {
                     id="composition-menu"
                     aria-labelledby="composition-button"
                   >
-                    <MenuItem onClick={handleClose}>
-                      <NavbarLink to="/auth/login">Login</NavbarLink>
+                    <MenuItem onClick={() => handleNavigate('/auth/login')}>
+                      Login
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>
-                      <NavbarLink to="/auth/register">Register</NavbarLink>
+                    <MenuItem onClick={() => handleNavigate('/auth/register')}>
+                      Register
                     </MenuItem>
                   </MenuList>
                 </ClickAwayListener>

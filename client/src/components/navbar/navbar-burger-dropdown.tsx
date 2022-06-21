@@ -4,17 +4,25 @@ import MenuList from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Box, Paper } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import NavbarLink, { CartStyle } from './navbar-link';
 import theme from '../../styles/theme';
 
 const NavBarBurgerDropDownMenu: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleNavigate = (route: string) => {
+    setMenuOpen(false);
+    navigate(route);
   };
 
   return (
@@ -38,14 +46,14 @@ const NavBarBurgerDropDownMenu: React.FC = () => {
             'aria-labelledby': 'basic-button',
           }}
         >
-          <MenuItem onClick={handleClose}>
-            <NavbarLink to="/">Home</NavbarLink>
+          <MenuItem onClick={() => handleNavigate('/')}>
+            Home
           </MenuItem>
-          <MenuItem onClick={handleClose}>
-            <NavbarLink to="/products">Products</NavbarLink>
+          <MenuItem onClick={() => handleNavigate('/products')}>
+            Products
           </MenuItem>
-          <MenuItem onClick={handleClose}>
-            <NavbarLink to="/about">About</NavbarLink>
+          <MenuItem onClick={() => handleNavigate('/about')}>
+            About
           </MenuItem>
         </MenuList>
       </Paper>
