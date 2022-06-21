@@ -34,7 +34,6 @@ export const cartFetchItemsActionThunk = async (
       throw new Error('Prasome prisijungti');
     }
     dispatch(cartFetchItemsLoadingAction);
-    // Siunčiama užklausa į serverį, kad parsiųsti visus CartItem'us
     const cartItems: CartItemPopulated[] = await CartService.fetchCartItems(token);
 
     const cartFetchItemsSuccessAction = createCartFetchItemsSuccessAction(cartItems);
@@ -58,7 +57,6 @@ export const createModifyCartItemActionThunk = (productId: string, amount: numbe
     }
 
     const existingCartItem = cart.items.find((x) => x.item.id === productId);
-    console.log({ productId, amount });
 
     if (existingCartItem) {
       if (amount > 0) {
@@ -85,4 +83,16 @@ export const createModifyCartItemActionThunk = (productId: string, amount: numbe
     const authFailureAction = createCartFetchItemsFailureAction(errMsg);
     dispatch(authFailureAction);
   }
+};
+
+export const cartDeleteItemAction = (id: string) => async (
+  dispatch: Dispatch<AppAction>,
+  getState: () => RootState,
+): Promise<void> => {
+  const { token } = getState().auth;
+  if (token === null) {
+    throw new Error('Please login');
+  }
+  await CartService.deleteCartItem(id, token);
+  cartFetchItemsActionThunk(dispatch, getState);
 };

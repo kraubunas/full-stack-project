@@ -10,6 +10,7 @@ export enum CartActionType {
   CART_FETCH_LOADING = 'CART_FETCH_LOADING',
   CART_FETCH_SUCCESS = 'CART_FETCH_SUCCESS',
   CART_FETCH_FAILURE = 'CART_FETCH_FAILURE',
+  CART_DELETE_ITEM = 'CART_DELETE_ITEM',
 }
 
 export type CartFetchLoadingAction = {
@@ -30,4 +31,11 @@ export type CartFetchFailureAction = {
   }
 };
 
-export type CartAction = CartFetchLoadingAction | CartFetchSuccessAction | CartFetchFailureAction;
+export type CartDeleteItemAction = {
+  type: CartActionType.CART_DELETE_ITEM,
+  payload: {
+    id: string,
+  }
+};
+
+export type CartAction = CartFetchLoadingAction | CartFetchSuccessAction | CartFetchFailureAction | CartDeleteItemAction;

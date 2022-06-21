@@ -50,7 +50,7 @@ const NavbarAuthMenu: React.FC = () => {
       sx={{ display: 'inline-flex', alignItems: 'center', height: 64 }}
     >
       <Drawer anchor="right" open={cartOpen} onClose={() => setCartOpen(false)}>
-        <Cart id="1" itemId="5" amount={0} updatedAt="" />
+        <Cart />
       </Drawer>
       <CartStyle>
         <IconButton aria-label="cart" sx={{ zIndex: 100 }} onClick={() => setCartOpen(true)}>

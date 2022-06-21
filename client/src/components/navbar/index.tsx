@@ -13,6 +13,7 @@ import { useRootSelector } from '../../store/hooks';
 import { selectAuthLoggedIn } from '../../store/selectors';
 import theme from '../../styles/theme';
 import NavBarBurgerDropDownMenu from './navbar-burger-dropdown';
+import NavbarVisitorMenu from './navbar-visitor-menu';
 
 const Navbar: React.FC = () => {
   // useEffect(({ cart }) => {
@@ -46,7 +47,7 @@ const Navbar: React.FC = () => {
             )
          }
           <Box sx={{ display: 'flex' }}>
-            {loggedIn ? <NavbarAuthMenu /> : null}
+            {loggedIn ? <NavbarAuthMenu /> : <NavbarVisitorMenu />}
           </Box>
         </Toolbar>
       </Container>

@@ -41,9 +41,22 @@ const updateCartItem = async (
   }
 };
 
+const deleteCartItem = async (id: string, token: string) => {
+  const { data } = await ApiService.delete<{ cartItem: CartItem }>(
+    `/api/cart/delete-item/${id}`,
+    {
+      headers: {
+        Authorization: token,
+      },
+    },
+  );
+  return data.cartItem;
+};
+
 const CartService = {
   fetchCartItems,
   updateCartItem,
+  deleteCartItem,
 };
 
 export default CartService;
